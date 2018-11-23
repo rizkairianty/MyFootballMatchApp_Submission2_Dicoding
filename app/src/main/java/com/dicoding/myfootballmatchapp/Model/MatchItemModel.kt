@@ -5,19 +5,23 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class LastMatchModel (
+data class MatchItemModel (
         @SerializedName("idEvent")
-        var idEvent: String? = null,
+        var idEvent: String? = "",
         @SerializedName("strEvent")
-        var eventName: String? = null,
+        var eventName: String? = "",
         @SerializedName("strHomeTeam")
-        var homeTeam: String? = null,
+        var homeTeam: String? = "",
         @SerializedName("strAwayTeam")
-        var awayTeam: String? = null,
+        var awayTeam: String? = "",
+        @SerializedName("intHomeScore")
+        var homeScore: String? = "",
+        @SerializedName("intAwayScore")
+        var awayScore: String? = "",
         @SerializedName("dateEvent")
-        var dateEvent: String? = null,
+        var dateEvent: String? = "",
         @SerializedName("idHomeTeam")
-        var idHomeTeam: String? = null,
+        var idHomeTeam: String? = "",
         @SerializedName("idAwayTeam")
-        var idAwayTeam: String? = null
+        var idAwayTeam: String? = ""
 ): Parcelable

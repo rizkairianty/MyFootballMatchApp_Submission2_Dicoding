@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tv_team1" type="id"></item>
+    <item name="tv_item2" type="id"></item>
+    <item name="iv_team1" type="id"></item>
+    <item name="iv_team2" type="id"></item>
+    <item name="homeTeam" type="id"></item>
+    <item name="awayTeam" type="id"></item>
+    <item name="tv_home_score" type="id" />
+    <item name="tv_away_score" type="id" />
+    <item name="tv_team2_score" type="id" />
+    <item name="tv_team1_score" type="id" />
+    <item name="schedule" type="id">schedule</item>
+
+</resources>

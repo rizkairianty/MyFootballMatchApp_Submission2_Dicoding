@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-    <FrameLayout
+  <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/container"
@@ -15,8 +15,12 @@
     <android.support.design.widget.BottomNavigationView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/spaceBlue"
+        app:itemTextColor="@drawable/bottom_nav_colors"
+        app:itemIconTint="@drawable/bottom_nav_colors"
         android:id="@+id/match_navigation"
         android:layout_below="@+id/container"
+        android:paddingBottom="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/match_navigation"></android.support.design.widget.BottomNavigationView>
 </android.support.constraint.ConstraintLayout>

@@ -1,12 +1,12 @@
 package com.dicoding.myfootballmatchapp.Response
 
 import android.os.Parcelable
-import com.dicoding.myfootballmatchapp.Model.TeamBadgeModel
+import com.dicoding.myfootballmatchapp.Model.MatchItemModel
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class TeamBadgeResponse (
-    @SerializedName("teams")
-    var teams : List<TeamBadgeModel>
+internal class MatchItemResponse(
+        @SerializedName("events")
+        val events: List<MatchItemModel>
 ) : Parcelable

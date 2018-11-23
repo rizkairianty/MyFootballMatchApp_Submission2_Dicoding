@@ -5,4 +5,27 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="versus">Versus</string>
+    <string name="schedule">Schedule</string>
+    <string name="team1">Team1</string>
+    <string name="team2">Team2</string>
+    <string name="tvName1">Home Team</string>
+    <string name="tvName2">Away Team</string>
+    <string name="score">Score</string>
+    <string name="tvScore1">Score Home</string>
+    <string name="tvScore2">Score Away</string>
+    <string name="formation">Formation</string>
+    <string name="tvFormation1">Home Formation</string>
+    <string name="tvFormation2">Away Formation</string>
+    <string name="goalDetails">Goal Details</string>
+    <string name="goals">Goals</string>
+    <string name="tvGoal1">Home Goals</string>
+    <string name="tvGoal2">Away Goals</string>
+    <string name="red_cards">Red Cards</string>
+    <string name="tv_red_card_1">Home Red Cards</string>
+    <string name="tv_red_card_2">Away Red Cards</string>
+    <string name="tv_yellow_card_1">Home Yellow Card</string>
+    <string name="yellow_card">Yellow Cards</string>
+    <string name="tv_yellow_card_2">Away Yellow Card</string>
+    <string name="match_detail">Match Detail</string>
 </resources>
