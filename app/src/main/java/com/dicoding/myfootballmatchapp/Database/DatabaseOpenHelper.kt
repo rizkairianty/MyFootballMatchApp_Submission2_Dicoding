@@ -12,7 +12,8 @@ class DatabaseOpenHelper (ctx : Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
                 Favorite.HOME_NAME to TEXT,
                 Favorite.AWAY_NAME to TEXT,
                 Favorite.HOME_SCORE to TEXT,
-                Favorite.AWAY_SCORE to TEXT)
+                Favorite.AWAY_SCORE to TEXT,
+                Favorite.SCHEDULE to TEXT)
     }
 
     override fun onUpgrade(p0: SQLiteDatabase, p1: Int, p2: Int) {

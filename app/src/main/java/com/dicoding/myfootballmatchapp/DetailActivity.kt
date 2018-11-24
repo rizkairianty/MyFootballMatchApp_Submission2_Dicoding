@@ -35,6 +35,7 @@ class DetailActivity : AppCompatActivity(),Contract.ViewDetail{
 
     private var menuItem : Menu? = null
     private var isFavorite : Boolean = false
+    private var isDataLoaded : Boolean = false
     private var idEvent : String = ""
     private var homeTeam : String = ""
     private var awayTeam : String = ""
@@ -78,6 +79,7 @@ class DetailActivity : AppCompatActivity(),Contract.ViewDetail{
 
         hideLoading(progressBar)
         detail_field.visibility = View.VISIBLE
+        isDataLoaded = true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -110,7 +112,7 @@ class DetailActivity : AppCompatActivity(),Contract.ViewDetail{
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(detail_menu,menu)
         menuItem = menu
-        setFavorite()
+        setFavorite(isFavorite)
         return true
     }
 
@@ -121,13 +123,17 @@ class DetailActivity : AppCompatActivity(),Contract.ViewDetail{
                 true
             }
             R.id.add_to_favorite -> {
-                if (isFavorite)
-                    removeFromFavorite()
-                else
-                    addToFavorite()
-                isFavorite = !isFavorite
-                setFavorite()
-                true
+                if(isDataLoaded) {
+                    if (isFavorite)
+                        removeFromFavorite()
+                    else
+                        addToFavorite()
+                    //isFavorite = !isFavorite
+                    setFavorite(isFavorite)
+                }else{
+                    toast(resources.getString(R.string.data_not_loaded))
+                }
+                    true
             }
             else -> super.onOptionsItemSelected(item)
         }
@@ -145,13 +151,14 @@ class DetailActivity : AppCompatActivity(),Contract.ViewDetail{
                         Favorite.SCHEDULE to match.matchSchedule)
             }
             toast(resources.getString(R.string.added_to_fav))
+            isFavorite = true
         }catch (e : SQLiteConstraintException){
             Log.d("Fail", "Fail")
         }
     }
 
-    private fun setFavorite(){
-        if (isFavorite)
+    private fun setFavorite(isFav : Boolean){
+        if (isFav)
             menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this, R.drawable.ic_is_favorite)
         else
             menuItem?.getItem(0)?.icon = ContextCompat.getDrawable(this,R.drawable.ic_not_favorite)
@@ -165,6 +172,7 @@ class DetailActivity : AppCompatActivity(),Contract.ViewDetail{
                         , "eventId" to idEvent)
             }
             toast(resources.getString(R.string.remove_fav))
+            isFavorite = false
         } catch (e : SQLiteConstraintException){
             Log.d("Fail", "Fail")
         }
