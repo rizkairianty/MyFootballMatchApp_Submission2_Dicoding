@@ -6,7 +6,9 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 class DetailModel (
-       @SerializedName("dateEvent")
+        @SerializedName("idEvent")
+        var eventId : String? = null,
+        @SerializedName("dateEvent")
        var matchSchedule: String? = null,
 
         @SerializedName("strHomeTeam")

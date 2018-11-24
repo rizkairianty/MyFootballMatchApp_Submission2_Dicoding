@@ -83,7 +83,7 @@ class DetailActivity : AppCompatActivity(),Contract.ViewDetail{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-        supportActionBar?.title = "Match Detail"
+        supportActionBar?.title = resources.getString(R.string.match_detail)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         title = applicationContext.getString(R.string.match_detail)
         idEvent = intent.getStringExtra("eventID")
@@ -137,9 +137,12 @@ class DetailActivity : AppCompatActivity(),Contract.ViewDetail{
         try {
             database.use {
                 insert(Favorite.TABLE_FAVORITE,
-                        Favorite.EVENT_ID to idEvent,
-                        Favorite.HOME_NAME to homeTeam,
-                        Favorite.AWAY_NAME to awayTeam)
+                        Favorite.EVENT_ID to match.eventId,
+                        Favorite.HOME_NAME to match.homeTeam,
+                        Favorite.AWAY_NAME to match.awayTeam,
+                        Favorite.HOME_SCORE to match.homeScore,
+                        Favorite.AWAY_SCORE to match.awayScore,
+                        Favorite.SCHEDULE to match.matchSchedule)
             }
             toast(resources.getString(R.string.added_to_fav))
         }catch (e : SQLiteConstraintException){
@@ -169,7 +172,7 @@ class DetailActivity : AppCompatActivity(),Contract.ViewDetail{
     private fun favoriteState(){
         database.use {
             val result = select(Favorite.TABLE_FAVORITE)
-                    .whereArgs("(MATCH_ID = {id})",
+                    .whereArgs("(EVENT_ID = {id})",
                             "id" to idEvent)
             val favorite = result.parseList(classParser<Favorite>())
             if (!favorite.isEmpty()) isFavorite = true

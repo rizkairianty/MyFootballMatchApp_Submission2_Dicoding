@@ -13,55 +13,68 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.Spinner
+import android.widget.TextView
+import com.dicoding.myfootballmatchapp.Adapter.FavoriteMatchAdapter
 import com.dicoding.myfootballmatchapp.Adapter.LastMatchAdapter
 import com.dicoding.myfootballmatchapp.Api.ApiRepo
+import com.dicoding.myfootballmatchapp.Database.Favorite
+import com.dicoding.myfootballmatchapp.Database.database
 import com.dicoding.myfootballmatchapp.Model.MatchItemModel
 import com.dicoding.myfootballmatchapp.Presenter.Contract
 import com.dicoding.myfootballmatchapp.Presenter.MatchPresenter
-
-import com.dicoding.myfootballmatchapp.R.color.colorAccent
+import com.dicoding.myfootballmatchapp.R
 import com.google.gson.Gson
 import org.jetbrains.anko.*
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.select
 import org.jetbrains.anko.recyclerview.v7.recyclerView
-import org.jetbrains.anko.support.v4.*
+import org.jetbrains.anko.support.v4.ctx
+import org.jetbrains.anko.support.v4.onRefresh
+import org.jetbrains.anko.support.v4.swipeRefreshLayout
+
 private const val LEAGUE_ID = "4335"
 
-/**
- * A simple [Fragment] subclass.
- *
- */
-class LastmatchFragment : Fragment(), Contract.ViewMatch {
-    private var lastmatchList: MutableList<MatchItemModel> = mutableListOf()
-    private lateinit var adapter: LastMatchAdapter
+class FavoriteFragment : Fragment(), AnkoComponent<Context> {
+    private var favMatchList: MutableList<Favorite> = mutableListOf()
+    private lateinit var adapter: FavoriteMatchAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
-    private lateinit var presenter: MatchPresenter
-
-    private var listener: OnListFragmentInteractionListener? = null
-    override fun hideLoading() {
+    private var listener : FavoriteFragment.OnFavListFragmentInteractionListener? = null
+/*    override override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        adapter = FavoriteMatchAdapter(favMatchList){
+            context?.star
+        }
+    }*/
+    /* override fun hideLoading() {
         progressBar.visibility = View.INVISIBLE
     }
 
     override fun showMatch(data: List<MatchItemModel>) {
-        swipeRefresh.isRefreshing = false
-        lastmatchList.clear()
-        lastmatchList.addAll(data)
-        adapter.notifyDataSetChanged()
-        hideLoading()
     }
 
     override fun showLoading() {
         progressBar.visibility = View.VISIBLE
     }
+*/
+    private fun showFavorite(){
+        favMatchList.clear()
+        context?.database?.use {
+            swipeRefresh.isRefreshing = false
+            val res = select(Favorite.TABLE_FAVORITE)
+            val favorite = res.parseList(classParser<Favorite>())
+            favMatchList.addAll(favorite)
+            adapter.notifyDataSetChanged()
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        //return inflater.inflate(R.layout.fragment_lastmatch, container, false)
         return createView(AnkoContext.Companion.create(ctx))
     }
 
-    private fun createView(ui : AnkoContext<Context>) : View = with(ui) {
+    override fun createView(ui : AnkoContext<Context>) : View = with(ui) {
         linearLayout {
             lparams (width = matchParent, height = wrapContent)
             orientation = LinearLayout.VERTICAL
@@ -69,47 +82,42 @@ class LastmatchFragment : Fragment(), Contract.ViewMatch {
             leftPadding = dip(16)
             rightPadding = dip(16)
 
-            //spinner = spinner ()
             swipeRefresh = swipeRefreshLayout {
-                setColorSchemeResources(colorAccent,
+                setColorSchemeResources(R.color.colorAccent,
                         android.R.color.holo_green_light,
                         android.R.color.holo_orange_light,
                         android.R.color.holo_red_light)
-
-                relativeLayout{
-                    lparams (width = matchParent, height = wrapContent)
 
                     recyclerView = recyclerView {
                         lparams (width = matchParent, height = wrapContent)
                         layoutManager = LinearLayoutManager(context)
                     }
-
-                    progressBar = progressBar {
-                    }.lparams{
-                        centerHorizontally()
-                    }
                 }
             }
-        }
 
-        adapter = LastMatchAdapter(ctx, lastmatchList, listener)
+        adapter = FavoriteMatchAdapter(ctx, favMatchList, listener)
         recyclerView.adapter = adapter
 
         swipeRefresh.onRefresh {
-            presenter.showLastData(LEAGUE_ID)
+            showFavorite()
         }
 
-        showLoading()
-        val apiRequest = ApiRepo()
+        /*val apiRequest = ApiRepo()
         val gson = Gson()
         //presenter = LastMatchPresenter(this@LastmatchFragment)
-        presenter = MatchPresenter(this@LastmatchFragment, gson, apiRequest)
-        presenter.showLastData(LEAGUE_ID)
+        presenter = MatchPresenter(this@FavoriteFragment, gson, apiRequest)
+        presenter.showLastData(LEAGUE_ID)*/
         return view
     }
+
+    override fun onResume() {
+        super.onResume()
+        showFavorite()
+    }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnListFragmentInteractionListener) {
+        if (context is OnFavListFragmentInteractionListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnListFragmentInteractionListener")
@@ -120,7 +128,9 @@ class LastmatchFragment : Fragment(), Contract.ViewMatch {
         super.onDetach()
         listener = null
     }
-    interface OnListFragmentInteractionListener {
-        fun onListFragmentInteraction(item: MatchItemModel)
+
+    interface OnFavListFragmentInteractionListener {
+        fun onFavListFragmentInteraction(item: Favorite)
     }
+
 }

@@ -1,4 +1,4 @@
-package com.dicoding.myfootballmatchapp.Favorite
+package com.dicoding.myfootballmatchapp.Database
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
@@ -10,7 +10,9 @@ class DatabaseOpenHelper (ctx : Context) : ManagedSQLiteOpenHelper(ctx, "Favorit
                 Favorite.ID to INTEGER + PRIMARY_KEY + AUTOINCREMENT,
                 Favorite.EVENT_ID to TEXT + UNIQUE,
                 Favorite.HOME_NAME to TEXT,
-                Favorite.AWAY_NAME to TEXT)
+                Favorite.AWAY_NAME to TEXT,
+                Favorite.HOME_SCORE to TEXT,
+                Favorite.AWAY_SCORE to TEXT)
     }
 
     override fun onUpgrade(p0: SQLiteDatabase, p1: Int, p2: Int) {
