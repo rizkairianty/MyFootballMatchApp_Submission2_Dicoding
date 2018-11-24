@@ -28,4 +28,5 @@
     <string name="yellow_card">Yellow Cards</string>
     <string name="tv_yellow_card_2">Away Yellow Card</string>
     <string name="match_detail">Match Detail</string>
+    <string name="favorite">Favorite</string>
 </resources>
